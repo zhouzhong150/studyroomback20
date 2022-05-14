@@ -38,7 +38,7 @@ public class StudyRoomController {
     }
 
 
-    @PostMapping("/")
+    @PutMapping("/")
     public ResponseEntity<Response> updateStudyRoom(@RequestBody StudyRoom studyRoom){
         MultiValueMap<String, String> headers = new HttpHeaders();
         Response<StudyRoom> response = new Response<>();
@@ -56,7 +56,7 @@ public class StudyRoomController {
         return new ResponseEntity(response,headers,200);
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<Response> insertStudyRoom(@RequestBody StudyRoom studyRoom){
         MultiValueMap<String, String> headers = new HttpHeaders();
         int success_num = studyRoomService.insertStudyRoom(studyRoom);
