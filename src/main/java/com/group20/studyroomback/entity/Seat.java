@@ -22,9 +22,8 @@ public class Seat {
     int positionColumn;
     int isNearWindow;
     int hasPower;
+    /**
+     * 1 未占用 2 已预约 3 已占用
+     */
     int status;
-
-
-
-
 }
