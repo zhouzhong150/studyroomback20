@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.Date;
@@ -148,8 +149,8 @@ public class MessageServiceImpl implements MessageService {
         }
     }
 
-
+    @Scheduled(cron="0 50 23 * * ?")
     public void timingCloseStudyRoom(){
-
+        System.out.println(new Date().toString());
     }
 }
