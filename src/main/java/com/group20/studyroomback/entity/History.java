@@ -23,6 +23,9 @@ public class History {
     int userId;
     int seatId;
     Long preserveTime;
+    /**
+     * 1表示未过期，2表示已过期
+     */
     int alive;
 
 }
