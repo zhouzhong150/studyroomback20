@@ -104,11 +104,6 @@ public class MessageServiceImpl implements MessageService {
         System.out.println(msg);
 }
 
-
-
-
-
-
     @Override
     public void produceMessage(String content, int seatId, int userId, long preserveTime, String userMail){
         String message = content + '_' + seatId + '_' + userId + "_" + userMail;
@@ -137,10 +132,6 @@ public class MessageServiceImpl implements MessageService {
 
     }
 
-
-
-
-
     @Override
     public int sentMail(String fromMailName, String mailMessage, String mailSubjectMessage, String toMailName) {
         try {
@@ -155,5 +146,10 @@ public class MessageServiceImpl implements MessageService {
             System.out.println(e);
             return 0;
         }
+    }
+
+
+    public void timingCloseStudyRoom(){
+
     }
 }

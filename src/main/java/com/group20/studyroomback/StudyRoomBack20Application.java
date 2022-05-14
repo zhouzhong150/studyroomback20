@@ -3,6 +3,7 @@ package com.group20.studyroomback;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * @Author: zhouzhong
@@ -12,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @MapperScan("com.group20.studyroomback.mapper")
+@EnableScheduling
 public class StudyRoomBack20Application {
     public static void main(String[] args) {
         SpringApplication.run(StudyRoomBack20Application.class, args);

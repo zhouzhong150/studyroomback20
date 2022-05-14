@@ -24,12 +24,6 @@ public class UserController {
     @Autowired
     UserServiceImpl userService;
 
-    @GetMapping("/test")
-    public String testUser(){
-        List<User> userList = userService.testSelect();
-        System.out.println(userList);
-        return "success";
-    }
 
     @PostMapping("/user")
     public ResponseEntity<Response<User>> insertUser(@RequestBody User user){
