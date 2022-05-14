@@ -40,15 +40,20 @@ public class UserServiceImpl implements UserService {
         ){
             return new Response<>(400, "注册失败，缺少必须数据，请重新填写注册数据", null);
         }
-        System.out.println("jinruler1");
+
         Response<User> response = selectByUsername(user.getUsername());
         if (response.getStatus() == 400 | response.getData() != null){
             return new Response<>(400, "注册失败，账号已被使用", null);
         }
+
+        Response<User> response_ = selectByStuNo(user.getStuNo());
+        System.out.println(response_);
+        if (response_.getStatus() == 400 | response_.getData() != null){
+            return new Response<>(400, "注册失败，学号已被使用", null);
+        }
+
         int status = userMapper.insert(user);
-        System.out.println("jinrule2");
-        System.out.println(status);
-        //todo 验证学号
+
         if (status == 1){
             return new Response(200, "注册成功", user);
         }
@@ -73,6 +78,25 @@ public class UserServiceImpl implements UserService {
         }
 
     }
+
+    @Override
+    public Response<User> selectByStuNo(String stuNo) {
+        try{
+            QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("stu_no", stuNo);
+            List<User> userList = userMapper.selectList(queryWrapper);
+            if (userList.size()==0){
+                return new Response(200, "查找成功", null);
+            }else {
+                return new Response(200, "查找成功", userList.get(0));
+            }
+
+        }catch(Exception e){
+            return new Response(400, "查找失败", null);
+        }
+
+    }
+
 
     @Override
     public Response login(String username, String password) {

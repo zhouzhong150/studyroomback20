@@ -39,7 +39,7 @@ public class UserController {
     }
 
 
-    @PostMapping("/register")
+    @PostMapping("/login")
     public ResponseEntity<Response> login(@RequestBody User user){
         MultiValueMap<String, String> headers = new HttpHeaders();
         Response response = userService.login(user.getUsername(), user.getPassword());

@@ -14,5 +14,7 @@ public interface UserService {
 
     public Response selectByUsername(String username);
 
+    public Response<User> selectByStuNo(String stuNo);
+
     public Response login(String username, String password);
 }
