@@ -1,7 +1,9 @@
 package com.group20.studyroomback.service.impl;
 
 import com.group20.studyroomback.entity.Seat;
+import com.group20.studyroomback.mapper.SeatMapper;
 import com.group20.studyroomback.service.SeatService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,13 +14,20 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SeatServiceImpl implements SeatService {
+    @Autowired
+    private SeatMapper seatMapper;
     @Override
     public Seat update(Seat seat) {
-        return null;
+        int successNum = seatMapper.updateById(seat);
+        if (successNum == 0){
+            return null;
+        }else{
+            return seatMapper.selectById(seat.getId());
+        }
     }
 
     @Override
     public Seat getSeatById(int id) {
-        return null;
+        return seatMapper.selectById(id);
     }
 }

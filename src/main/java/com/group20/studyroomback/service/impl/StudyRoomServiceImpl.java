@@ -22,11 +22,29 @@ public class StudyRoomServiceImpl implements StudyRoomService {
     StudyRoomMapper studyRoomMapper;
 
     @Override
-    public List<StudyRoom> selectByID(int id) {
+    public List<StudyRoom> selectRooms() {
         QueryWrapper<StudyRoom> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("id", id);
         List<StudyRoom> studyRoomList = studyRoomMapper.selectList(queryWrapper);
-
         return studyRoomList;
+    }
+
+    @Override
+    public StudyRoom updateEntity(StudyRoom studyRoom) {
+        int success_num = studyRoomMapper.updateById(studyRoom);
+        if (success_num > 0){
+            return studyRoom;
+        }else{
+            return null;
+        }
+    }
+
+    @Override
+    public int deleteById(int id) {
+        return studyRoomMapper.deleteById(id);
+    }
+
+    @Override
+    public int insertStudyRoom(StudyRoom studyRoom) {
+        return studyRoomMapper.insert(studyRoom);
     }
 }

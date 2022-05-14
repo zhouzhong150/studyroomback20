@@ -27,8 +27,4 @@ public class Seat {
      *
      */
     int status;
-
-
-
-
 }

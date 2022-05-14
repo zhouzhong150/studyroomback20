@@ -6,5 +6,9 @@ import java.util.List;
 
 public interface StudyRoomService {
 
-    public List<StudyRoom> selectByID(int id);
+    public List<StudyRoom> selectRooms();
+    public StudyRoom updateEntity(StudyRoom studyRoom);
+
+    public int deleteById(int id);
+    public int insertStudyRoom(StudyRoom studyRoom);
 }
