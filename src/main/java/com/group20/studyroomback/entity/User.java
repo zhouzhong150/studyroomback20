@@ -19,11 +19,14 @@ import lombok.NoArgsConstructor;
 public class User {
 
     int id;
+    int role;
     String username;
     String password;
     String stuNo;
     String phoneNum;
     String email;
+
+
 
 
 }

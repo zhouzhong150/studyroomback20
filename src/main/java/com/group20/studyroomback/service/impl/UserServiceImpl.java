@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
         if (response_.getStatus() == 400 | response_.getData() != null){
             return new Response<>(400, "注册失败，学号已被使用", null);
         }
-
+        user.setRole(0);
         int status = userMapper.insert(user);
 
         if (status == 1){
