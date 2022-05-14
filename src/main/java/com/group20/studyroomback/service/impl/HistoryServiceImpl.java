@@ -30,6 +30,11 @@ public class HistoryServiceImpl implements HistoryService {
 
     @Override
     public History updateHistory(History history) {
-        return null;
+        int success_num = historyMapper.updateById(history);
+        if (success_num == 0){
+            return null;
+        }else{
+            return historyMapper.selectById(history.getId());
+        }
     }
 }
