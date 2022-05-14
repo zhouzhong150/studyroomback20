@@ -8,9 +8,12 @@ import java.util.List;
 
 public interface UserService {
 
-    public List<User> testSelect();
+    public Response<User> selectByUserId(int userId);
 
     public Response insertUser(User user);
+
+
+    public Response updateUser(User user);
 
     public Response selectByUsername(String username);
 

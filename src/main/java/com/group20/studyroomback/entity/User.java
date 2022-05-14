@@ -25,6 +25,7 @@ public class User {
     String stuNo;
     String phoneNum;
     String email;
+    int delayTimes;
 
 
 

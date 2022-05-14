@@ -22,6 +22,10 @@ public class Seat {
     int positionColumn;
     int isNearWindow;
     int hasPower;
+    /**
+     * 1 未占用，2已占用，3已签到
+     *
+     */
     int status;
 
 

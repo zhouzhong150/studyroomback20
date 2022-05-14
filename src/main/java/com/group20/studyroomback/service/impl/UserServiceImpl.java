@@ -1,6 +1,7 @@
 package com.group20.studyroomback.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.api.R;
 import com.group20.studyroomback.entity.Response;
 import com.group20.studyroomback.entity.User;
 import com.group20.studyroomback.mapper.UserMapper;
@@ -23,12 +24,20 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
 
     @Override
-    public List<User> testSelect() {
+    public Response<User> selectByUserId(int userId) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("id", 1);
-        return userMapper.selectList(queryWrapper);
+        queryWrapper.eq("id", userId);
+        List<User> userList = userMapper.selectList(queryWrapper);
+        if (userList.size() == 1){
+            return new Response<>(200, "查询成功", userList.get(0));
+        }
+        return new Response<>(200, "无此用户", null);
 
     }
+
+
+
+
 
     @Override
     public Response<User> insertUser(User user) {
@@ -52,6 +61,7 @@ public class UserServiceImpl implements UserService {
             return new Response<>(400, "注册失败，学号已被使用", null);
         }
         user.setRole(0);
+        user.setDelayTimes(0);
         int status = userMapper.insert(user);
 
         if (status == 1){
@@ -59,6 +69,15 @@ public class UserServiceImpl implements UserService {
         }
         return new Response(400, "注册失败", null);
 
+    }
+
+    @Override
+    public Response<User> updateUser(User user) {
+        int num = userMapper.updateById(user);
+        if (num == 0) {
+            return new Response<>(400, "更新失败，id错误", null);
+        }
+        return selectByUserId(user.getId());
     }
 
     @Override
