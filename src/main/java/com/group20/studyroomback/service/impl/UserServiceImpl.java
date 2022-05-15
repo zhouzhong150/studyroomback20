@@ -36,9 +36,6 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
-
-
     @Override
     public Response<User> insertUser(User user) {
         if (user.getUsername() == null | Objects.equals(user.getUsername(), "")|
