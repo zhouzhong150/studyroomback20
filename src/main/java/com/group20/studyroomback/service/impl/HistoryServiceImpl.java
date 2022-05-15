@@ -29,12 +29,17 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
-    public History updateHistory(History history) {
+    public History updateHistoryByEntity(History history) {
         int success_num = historyMapper.updateById(history);
         if (success_num == 0){
             return null;
         }else{
             return historyMapper.selectById(history.getId());
         }
+    }
+
+    @Override
+    public List<History> updateHistoriesBySeatIds(List<Integer> ids) {
+        return null;
     }
 }

@@ -6,6 +6,8 @@ import com.group20.studyroomback.service.SeatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @Author: zhouzhong
  * @Email: 21212010059@m.fudan.edu.cn
@@ -29,5 +31,10 @@ public class SeatServiceImpl implements SeatService {
     @Override
     public Seat getSeatById(int id) {
         return seatMapper.selectById(id);
+    }
+
+    @Override
+    public List<Seat> updateSeatsByRoomIds(List<Integer> ids, int status) {
+        return null;
     }
 }

@@ -7,5 +7,6 @@ import java.util.List;
 public interface HistoryService {
 
     public List<History> getByUserId(int user_id);
-    public History updateHistory(History history);
+    public History updateHistoryByEntity(History history);
+    public List<History> updateHistoriesBySeatIds(List<Integer> ids);
 }
