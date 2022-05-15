@@ -29,7 +29,7 @@ public class StudyRoomServiceImpl implements StudyRoomService {
     }
 
     @Override
-    public List<StudyRoom> selectRoomsByCloseTime() {
+    public List<StudyRoom> selectRoomsByCloseTime(int closeTime) {
         return null;
     }
 
