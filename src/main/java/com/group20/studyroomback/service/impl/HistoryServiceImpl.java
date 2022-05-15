@@ -40,6 +40,15 @@ public class HistoryServiceImpl implements HistoryService {
 
     @Override
     public List<History> updateHistoriesBySeatIds(List<Integer> ids) {
-        return null;
+        QueryWrapper<History> queryWrapper = new QueryWrapper<>();
+        queryWrapper.in("seat_id", ids);
+        History history = new History();
+        history.setAlive(0);
+        int successNum = historyMapper.update(history, queryWrapper);
+        if (successNum > 0){
+            return historyMapper.selectList(queryWrapper);
+        }else{
+            return null;
+        }
     }
 }

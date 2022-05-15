@@ -1,6 +1,8 @@
 package com.group20.studyroomback.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.group20.studyroomback.entity.Seat;
+import com.group20.studyroomback.entity.StudyRoom;
 import com.group20.studyroomback.mapper.SeatMapper;
 import com.group20.studyroomback.service.SeatService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,15 @@ public class SeatServiceImpl implements SeatService {
 
     @Override
     public List<Seat> updateSeatsByRoomIds(List<Integer> ids, int status) {
-        return null;
+        QueryWrapper<Seat> queryWrapper = new QueryWrapper<>();
+        queryWrapper.in("study_room_id", ids);
+        Seat seat = new Seat();
+        seat.setStatus(0);
+        int successNum = seatMapper.update(seat, queryWrapper);
+        if (successNum > 0){
+            return seatMapper.selectList(queryWrapper);
+        }else{
+            return null;
+        }
     }
 }
