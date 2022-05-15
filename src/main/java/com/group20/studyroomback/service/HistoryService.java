@@ -5,7 +5,7 @@ import com.group20.studyroomback.entity.History;
 import java.util.List;
 
 public interface HistoryService {
-
+    public History insertHistory(History history);
     public List<History> getByUserId(int user_id);
     public History updateHistoryByEntity(History history);
     public List<History> updateHistoriesBySeatIds(List<Integer> ids);

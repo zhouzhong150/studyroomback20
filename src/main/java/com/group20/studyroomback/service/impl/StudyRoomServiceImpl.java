@@ -1,14 +1,17 @@
 package com.group20.studyroomback.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.group20.studyroomback.entity.Seat;
 import com.group20.studyroomback.entity.StudyRoom;
 import com.group20.studyroomback.entity.User;
+import com.group20.studyroomback.mapper.SeatMapper;
 import com.group20.studyroomback.mapper.StudyRoomMapper;
 import com.group20.studyroomback.service.StudyRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * @Author: zhouzhong
@@ -20,6 +23,8 @@ import java.util.List;
 public class StudyRoomServiceImpl implements StudyRoomService {
     @Autowired
     StudyRoomMapper studyRoomMapper;
+    @Autowired
+    private SeatMapper seatMapper;
 
     @Override
     public List<StudyRoom> selectRooms() {
@@ -52,6 +57,17 @@ public class StudyRoomServiceImpl implements StudyRoomService {
 
     @Override
     public int insertStudyRoom(StudyRoom studyRoom) {
+        for (int i=1; i<=studyRoom.getRoomRow(); i++)
+        {
+            for (int j=1; j<=studyRoom.getRoomColumn(); j++){
+                Seat seat = new Seat();
+                seat.setStatus(1);
+                seat.setStudyRoomId(studyRoom.getId());
+                seat.setPositionRow(i);
+                seat.setPositionColumn(j);
+                seatMapper.insert(seat);
+            }
+        }
         return studyRoomMapper.insert(studyRoom);
     }
 }

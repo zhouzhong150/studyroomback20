@@ -55,16 +55,47 @@ public class HistoryController {
      */
     @PostMapping("/")
     public ResponseEntity<Response> insertHistory(History history){
-        return null;
+        MultiValueMap<String, String> headers = new HttpHeaders();
+        Response<History> response = new Response<>();
+        if (history.getId() != 0 || history.getSeatId() == 0 || history.getUserId() == 0 || history.getAlive() == 2){
+            response.setDetail("Bad Request");
+            return new ResponseEntity(response,headers,400);
+        }
+        History history1 = historyService.insertHistory(history);
+        if (history1 == null){
+            response.setDetail("座位预约失败");
+            return new ResponseEntity(response,headers,200);
+        }else{
+            response.setDetail("座位预约成功");
+            response.setData(history1);
+            return new ResponseEntity(response,headers,200);
+        }
     }
 
     /**
-     * 学生取消预约座位
+     * 学生取消预约座位和签到和签退。
      * @param history 更新history状态和seat状态
      * @return 更新后的history
      */
     @PutMapping("/")
     public ResponseEntity<Response> updateHistory(History history){
-        return null;
+        MultiValueMap<String, String> headers = new HttpHeaders();
+        Response<History> response = new Response<>();
+        if (history.getSeatId() == 0 || history.getId() == 0 || history.getUserId() == 0){
+            response.setDetail("id不能为0或必须传入id");
+            if (history.getAlive() != 1 || history.getAlive() != 2){
+                response.setDetail("alive参数必须为1或2");
+            }
+            return new ResponseEntity(response,headers,400);
+        }
+        History newHistory = historyService.updateHistoryByEntity(history);
+        if (newHistory == null){
+            response.setDetail("更新失败");
+            return new ResponseEntity(response,headers,200);
+        }else{
+            response.setDetail("更新成功");
+            response.setData(newHistory);
+            return new ResponseEntity(response,headers,200);
+        }
     }
 }
