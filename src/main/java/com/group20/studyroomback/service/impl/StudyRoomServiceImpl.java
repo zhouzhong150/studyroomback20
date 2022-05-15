@@ -29,6 +29,11 @@ public class StudyRoomServiceImpl implements StudyRoomService {
     }
 
     @Override
+    public List<StudyRoom> selectRoomsByCloseTime() {
+        return null;
+    }
+
+    @Override
     public StudyRoom updateEntity(StudyRoom studyRoom) {
         int success_num = studyRoomMapper.updateById(studyRoom);
         if (success_num > 0){

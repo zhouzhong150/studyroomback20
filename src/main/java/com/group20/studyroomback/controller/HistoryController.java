@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,6 +24,12 @@ import java.util.List;
 public class HistoryController {
     @Autowired
     private HistoryService historyService;
+
+    /**
+     * 学生获取历史座位
+     * @param user_id 学生的userId
+     * @return history列表
+     */
     @GetMapping("/{user_id}")
     public ResponseEntity<Response> getHistoryByUserId(@PathVariable int user_id){
         List<History> histories = historyService.getByUserId(user_id);
@@ -43,5 +46,25 @@ public class HistoryController {
             response.setData(histories);
         }
         return new ResponseEntity(response,headers,200);
+    }
+
+    /**
+     * 学生预约座位
+     * @param history 新增history并改变seat状态
+     * @return 新增的hisotry实体
+     */
+    @PostMapping("/")
+    public ResponseEntity<Response> insertHistory(History history){
+        return null;
+    }
+
+    /**
+     * 学生取消预约座位
+     * @param history 更新history状态和seat状态
+     * @return 更新后的history
+     */
+    @PutMapping("/")
+    public ResponseEntity<Response> updateHistory(History history){
+        return null;
     }
 }

@@ -7,6 +7,7 @@ import java.util.List;
 public interface StudyRoomService {
 
     public List<StudyRoom> selectRooms();
+    public List<StudyRoom> selectRoomsByCloseTime();
     public StudyRoom updateEntity(StudyRoom studyRoom);
 
     public int deleteById(int id);

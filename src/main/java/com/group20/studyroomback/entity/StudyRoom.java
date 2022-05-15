@@ -21,12 +21,10 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @TableName("study_room")
 public class StudyRoom {
-
     int id;
     String roomName;
     Long closeTime;
     Long openTime;
     int roomRow;
     int roomColumn;
-
 }
