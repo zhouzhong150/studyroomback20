@@ -56,7 +56,7 @@ public class StudyRoomController {
         return new ResponseEntity(response,headers,200);
     }
 
-    @PostMapping("")
+    @PostMapping("/")
     public ResponseEntity<Response> insertStudyRoom(@RequestBody StudyRoom studyRoom){
         MultiValueMap<String, String> headers = new HttpHeaders();
         int success_num = studyRoomService.insertStudyRoom(studyRoom);
