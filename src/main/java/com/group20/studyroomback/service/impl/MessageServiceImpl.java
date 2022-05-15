@@ -1,13 +1,7 @@
 package com.group20.studyroomback.service.impl;
 
-import com.group20.studyroomback.entity.History;
-import com.group20.studyroomback.entity.Response;
-import com.group20.studyroomback.entity.Seat;
-import com.group20.studyroomback.entity.User;
-import com.group20.studyroomback.service.HistoryService;
-import com.group20.studyroomback.service.MessageService;
-import com.group20.studyroomback.service.SeatService;
-import com.group20.studyroomback.service.UserService;
+import com.group20.studyroomback.entity.*;
+import com.group20.studyroomback.service.*;
 import com.rabbitmq.client.Channel;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -19,7 +13,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -52,6 +48,8 @@ public class MessageServiceImpl implements MessageService {
     @Autowired
     private SeatService seatService;
 
+    @Autowired
+    private StudyRoomService studyRoomService;
 
     @Override
     @RabbitListener(queues = "PROJECT_LATTER_QUEUE")
@@ -90,7 +88,7 @@ public class MessageServiceImpl implements MessageService {
                     }
                 }
                 if (history != null){
-                    historyService.updateHistory(history);
+                    historyService.updateHistoryByEntity(history);
                 }
             }
         }
@@ -155,7 +153,24 @@ public class MessageServiceImpl implements MessageService {
         /**
          * 把所有studyRoom和seat还有history改变
          */
+        Calendar c = Calendar.getInstance();
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int nowHour = hour * 1000;
+        //得到所有在该时间关闭的room
+        List<StudyRoom> studyRoomList = studyRoomService.selectRoomsByCloseTime();
+        List<Integer> idList = new LinkedList<>();
+        for (int i = 0; i <=studyRoomList.size()-1; i++){
+            idList.add(studyRoomList.get(i).getId());
+        }
+        //
+        List<Seat> seatList = seatService.updateSeatsByRoomIds(idList, 1);
+        List<Integer> seatIdList = new LinkedList<>();
+        for (Seat seat: seatList){
+            seatIdList.add(seat.getId());
+        }
 
-        System.out.println(new Date().toString());
+        historyService.updateHistoriesBySeatIds(seatIdList);
+
+
     }
 }
