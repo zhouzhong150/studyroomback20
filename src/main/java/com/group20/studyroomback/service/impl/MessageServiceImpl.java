@@ -149,8 +149,13 @@ public class MessageServiceImpl implements MessageService {
         }
     }
 
-    @Scheduled(cron="0 50 23 * * ?")
+    @Scheduled(cron="0 0 23 * * ?")
     public void timingCloseStudyRoom(){
+        //todo
+        /**
+         * 把所有studyRoom和seat还有history改变
+         */
+
         System.out.println(new Date().toString());
     }
 }
