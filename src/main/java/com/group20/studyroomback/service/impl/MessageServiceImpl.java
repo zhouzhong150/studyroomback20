@@ -76,6 +76,7 @@ public class MessageServiceImpl implements MessageService {
                 if (userResponse.getStatus()== 200 && userResponse.getData()!=null){
                     User user = userResponse.getData();
                     user.setDelayTimes(user.getDelayTimes() + 1);
+                    userServicel.updateUser(user);
                 }
                 //改history
                 List<History> historyList = historyService.getByUserId(userId);
@@ -92,14 +93,7 @@ public class MessageServiceImpl implements MessageService {
                 }
             }
         }
-            /**
-             * 根据seatId去seat看看有没有签到
-             * 如果签到了， 不动？
-             * 如果没签到，把用户违约次数加1，并且把seat status 为1 , 把history alive 改成1
-             *
-             */
 
-        System.out.println(new Date().toString());
         System.out.println(msg);
 }
 
@@ -147,17 +141,13 @@ public class MessageServiceImpl implements MessageService {
         }
     }
 
-    @Scheduled(cron="0 0 23 * * ?")
+    @Scheduled(cron="0 36 0-23 * * ?")
     public void timingCloseStudyRoom(){
-        //todo
-        /**
-         * 把所有studyRoom和seat还有history改变
-         */
         Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int nowHour = hour * 1000;
         //得到所有在该时间关闭的room
-        List<StudyRoom> studyRoomList = studyRoomService.selectRoomsByCloseTime();
+        List<StudyRoom> studyRoomList = studyRoomService.selectRoomsByCloseTime(nowHour);
         List<Integer> idList = new LinkedList<>();
         for (int i = 0; i <=studyRoomList.size()-1; i++){
             idList.add(studyRoomList.get(i).getId());
