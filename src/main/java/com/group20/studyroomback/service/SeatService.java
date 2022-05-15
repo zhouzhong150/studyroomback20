@@ -10,4 +10,8 @@ public interface SeatService {
     public Seat getSeatById(int id);
 
     public List<Seat> updateSeatsByRoomIds(List<Integer> roomIds, int status);
+
+    public List<Seat> getSeatsByRoomId(int roomId);
+
+    public Seat getRecommendSeat();
 }

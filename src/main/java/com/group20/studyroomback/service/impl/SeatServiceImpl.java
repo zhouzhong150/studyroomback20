@@ -1,8 +1,10 @@
 package com.group20.studyroomback.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.group20.studyroomback.entity.History;
 import com.group20.studyroomback.entity.Seat;
 import com.group20.studyroomback.entity.StudyRoom;
+import com.group20.studyroomback.mapper.HistoryMapper;
 import com.group20.studyroomback.mapper.SeatMapper;
 import com.group20.studyroomback.service.SeatService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,8 @@ import java.util.List;
 public class SeatServiceImpl implements SeatService {
     @Autowired
     private SeatMapper seatMapper;
+    @Autowired
+    private HistoryMapper historyMapper;
     @Override
     public Seat update(Seat seat) {
         int successNum = seatMapper.updateById(seat);
@@ -47,5 +51,21 @@ public class SeatServiceImpl implements SeatService {
         }else{
             return null;
         }
+    }
+
+    @Override
+    public List<Seat> getSeatsByRoomId(int roomId) {
+        QueryWrapper<Seat> queryWrapper = new QueryWrapper<>();
+        queryWrapper.in("study_room_id", roomId);
+        return seatMapper.selectList(queryWrapper);
+    }
+
+    @Override
+    public Seat getRecommendSeat() {
+        QueryWrapper<History> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("alive", 2);
+        queryWrapper.orderByDesc("preserve_time");
+        History history = historyMapper.selectOne(queryWrapper);
+        return seatMapper.selectById(history.getId());
     }
 }

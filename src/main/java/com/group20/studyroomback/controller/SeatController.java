@@ -1,9 +1,16 @@
 package com.group20.studyroomback.controller;
 
+import com.group20.studyroomback.entity.History;
 import com.group20.studyroomback.entity.Response;
 import com.group20.studyroomback.entity.Seat;
+import com.group20.studyroomback.service.SeatService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @Author: zhouzhong
@@ -14,12 +21,37 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("seat")
 public class SeatController {
+    @Autowired
+    private SeatService seatService;
     @GetMapping("/studyroom/{id}")
     public ResponseEntity<Response> getSeatsByStudyRoom(@PathVariable int id){
-        return null;
+        MultiValueMap<String, String> headers = new HttpHeaders();
+        Response<List<Seat>> response = new Response<>();
+        if (id <= 0){
+            response.setDetail("参数错误");
+            return new ResponseEntity(response,headers,400);
+        }
+        List<Seat> seats = seatService.getSeatsByRoomId(id);
+        if (seats.size() == 0){
+            response.setDetail("查无seat数据！");
+        }else{
+            response.setData(seats);
+            response.setDetail("查询数据成功");
+        }
+        return new ResponseEntity(response,headers,200);
     }
+
     @GetMapping("/recommend")
     public ResponseEntity<Response> getRecommendSeat(){
-        return null;
+        MultiValueMap<String, String> headers = new HttpHeaders();
+        Response<Seat> response = new Response<>();
+        Seat seat = seatService.getRecommendSeat();
+        if (seat == null){
+            response.setDetail("无推荐");
+        }else{
+            response.setDetail("推荐成功");
+            response.setData(seat);
+        }
+        return new ResponseEntity(response,headers,200);
     }
 }
