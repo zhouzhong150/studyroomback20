@@ -23,6 +23,9 @@ import java.sql.Timestamp;
 public class StudyRoom {
     int id;
     String roomName;
+    /**
+     关闭时间，0时0分0秒为0，10时50分20秒为105020
+     */
     Long closeTime;
     Long openTime;
     int roomRow;

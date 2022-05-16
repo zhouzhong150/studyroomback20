@@ -19,6 +19,9 @@ import lombok.NoArgsConstructor;
 public class User {
 
     int id;
+    /**
+     * 用户角色 1代表管理员，2代表普通用户
+     */
     int role;
     String username;
     String password;

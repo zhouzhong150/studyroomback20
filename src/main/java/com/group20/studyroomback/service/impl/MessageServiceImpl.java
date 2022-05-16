@@ -141,13 +141,15 @@ public class MessageServiceImpl implements MessageService {
         }
     }
 
-    @Scheduled(cron="0 36 0-23 * * ?")
+    @Scheduled(cron="* * * * * ?")
     public void timingCloseStudyRoom(){
         Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
-        int nowHour = hour * 1000;
+        int minute = c.get(Calendar.MINUTE);
+        int second = c.get(Calendar.SECOND);
+        int nowTime = hour * 100 * 100 + minute * 100 + second;
         //得到所有在该时间关闭的room
-        List<StudyRoom> studyRoomList = studyRoomService.selectRoomsByCloseTime(nowHour);
+        List<StudyRoom> studyRoomList = studyRoomService.selectRoomsByCloseTime(nowTime);
         List<Integer> idList = new LinkedList<>();
         for (int i = 0; i <=studyRoomList.size()-1; i++){
             idList.add(studyRoomList.get(i).getId());

@@ -21,10 +21,16 @@ public class Seat {
     String seatName;
     int positionRow;
     int positionColumn;
+    /**
+     * 1代表靠窗，2代表不靠窗
+     */
     int isNearWindow;
+    /**
+     * 1代表可以充电，2代表不可以
+     */
     int hasPower;
     /**
-     * 1 未占用，2已占用，3已签到
+     * 1 未占用，2已占用，3已签到，4不可用
      */
     int status;
 }

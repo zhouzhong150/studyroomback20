@@ -22,6 +22,9 @@ public class History {
     int id;
     int userId;
     int seatId;
+    /**
+     * 预定时间，是一个时间戳
+     */
     Long preserveTime;
     /**
      * 1表示未过期，2表示已过期

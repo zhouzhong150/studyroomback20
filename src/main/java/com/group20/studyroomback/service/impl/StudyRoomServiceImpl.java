@@ -35,9 +35,10 @@ public class StudyRoomServiceImpl implements StudyRoomService {
 
     @Override
     public List<StudyRoom> selectRoomsByCloseTime(int closeTime) {
-        QueryWrapper<StudyRoom> queryWrapper = new QueryWrapper<>();
-        queryWrapper.le("close_time", closeTime);
-        return studyRoomMapper.selectList(queryWrapper);
+//        QueryWrapper<StudyRoom> queryWrapper = new QueryWrapper<>();
+//        queryWrapper.le("close_time", closeTime);
+//        return studyRoomMapper.selectList(queryWrapper);
+          return null;
     }
 
     @Override
