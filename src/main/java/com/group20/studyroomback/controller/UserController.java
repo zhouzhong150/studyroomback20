@@ -24,6 +24,15 @@ public class UserController {
     @Autowired
     UserServiceImpl userService;
 
+    /**
+     *
+     * @param page
+     * @return Map
+     */
+    @GetMapping("/list")
+    public ResponseEntity<Response> listUsers(@RequestParam("page") Integer page){
+        return null;
+    }
 
     @PostMapping("/user")
     public ResponseEntity<Response<User>> insertUser(@RequestBody User user){
@@ -32,7 +41,6 @@ public class UserController {
         return new ResponseEntity(response, headers, response.getStatus());
     }
 
-
     @PostMapping("/login")
     public ResponseEntity<Response> login(@RequestBody User user){
         MultiValueMap<String, String> headers = new HttpHeaders();
@@ -40,6 +48,8 @@ public class UserController {
         return new ResponseEntity<>(response, headers, response.getStatus());
     }
 
-
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Response> deleteById(@PathVariable("id") Integer id){
+        return null;
+    }
 }
