@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.group20.studyroomback.entity.History;
 import com.group20.studyroomback.entity.Seat;
 import com.group20.studyroomback.entity.StudyRoom;
+import com.group20.studyroomback.entity.User;
 import com.group20.studyroomback.mapper.HistoryMapper;
 import com.group20.studyroomback.mapper.SeatMapper;
+import com.group20.studyroomback.mapper.UserMapper;
 import com.group20.studyroomback.service.HistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,16 +27,31 @@ public class HistoryServiceImpl implements HistoryService {
     @Autowired
     private SeatMapper seatMapper;
 
+    @Autowired
+    private MessageServiceImpl messageService;
+
+    @Autowired
+    private UserMapper userMapper;
+
     @Override
     public History insertHistory(History history) {
         Seat seat = new Seat();
         seat.setStatus(2);
         seat.setId(history.getSeatId());
         seatMapper.updateById(seat);
+        long time = System.currentTimeMillis();
+        history.setPreserveTime(time);
+
+        User user = userMapper.selectById(history.getUserId());
+
         int successNum = historyMapper.insert(history);
         if (successNum > 0){
+            messageService.produceMessage("test", history.getSeatId(), history.getUserId(), time, user.getEmail());
+
             return history;
         }else{
+
+
             return null;
         }
     }

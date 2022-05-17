@@ -44,7 +44,7 @@ public class SeatServiceImpl implements SeatService {
         QueryWrapper<Seat> queryWrapper = new QueryWrapper<>();
         queryWrapper.in("study_room_id", ids);
         Seat seat = new Seat();
-        seat.setStatus(0);
+        seat.setStatus(status);
         int successNum = seatMapper.update(seat, queryWrapper);
         if (successNum > 0){
             return seatMapper.selectList(queryWrapper);

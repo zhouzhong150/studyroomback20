@@ -35,10 +35,10 @@ public class StudyRoomServiceImpl implements StudyRoomService {
 
     @Override
     public List<StudyRoom> selectRoomsByCloseTime(int closeTime) {
-//        QueryWrapper<StudyRoom> queryWrapper = new QueryWrapper<>();
-//        queryWrapper.le("close_time", closeTime);
-//        return studyRoomMapper.selectList(queryWrapper);
-          return null;
+        QueryWrapper<StudyRoom> queryWrapper = new QueryWrapper<>();
+        queryWrapper.le("close_time", closeTime);
+        return studyRoomMapper.selectList(queryWrapper);
+
     }
 
     @Override
@@ -62,6 +62,13 @@ public class StudyRoomServiceImpl implements StudyRoomService {
         {
             for (int j=1; j<=studyRoom.getRoomColumn(); j++){
                 Seat seat = new Seat();
+                if (Math.random() >0.8){
+                    seat.setHasPower(1);
+                }
+                if (Math.random() >0.8){
+                    seat.setIsNearWindow(1);
+                }
+                seat.setSeatName(Integer.toString(i) + "-" + Integer.toString(j));
                 seat.setStatus(1);
                 seat.setStudyRoomId(studyRoom.getId());
                 seat.setPositionRow(i);

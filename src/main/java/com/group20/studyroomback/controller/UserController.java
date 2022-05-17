@@ -29,12 +29,12 @@ public class UserController {
      * @param page
      * @return Map
      */
-    @GetMapping("/list")
+    @GetMapping("/")
     public ResponseEntity<Response> listUsers(@RequestParam("page") Integer page){
         return null;
     }
 
-    @PostMapping("/user")
+    @PostMapping("/")
     public ResponseEntity<Response<User>> insertUser(@RequestBody User user){
         MultiValueMap<String, String> headers = new HttpHeaders();
         Response response = userService.insertUser(user);
@@ -50,6 +50,12 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Response> deleteById(@PathVariable("id") Integer id){
+        return null;
+    }
+
+
+    @PutMapping("/")
+    public ResponseEntity<Response> updateUser(@RequestBody User user){
         return null;
     }
 }

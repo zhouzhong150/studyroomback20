@@ -54,13 +54,16 @@ public class MessageServiceImpl implements MessageService {
     @Override
     @RabbitListener(queues = "PROJECT_LATTER_QUEUE")
     public void consumerMessage(Message message, Channel channel) throws IOException {
+        System.out.println("i am coming");
         String msg = new String(message.getBody());
+        System.out.println(msg);
+
         String[] messageList = msg.split("_");
         String content = messageList[0];
         int seatId = Integer.parseInt(messageList[1]);
         int userId = Integer.parseInt(messageList[2]);
-        int type = Integer.parseInt(messageList[3]);
-        String userMail = messageList[4];
+        int type = Integer.parseInt(messageList[4]);
+        String userMail = messageList[3];
 
         if (type==1){
             sentMail(fromMailName, MAILMESSAGE, MAILSUBJECTMESSAGE, userMail);
@@ -93,8 +96,6 @@ public class MessageServiceImpl implements MessageService {
                 }
             }
         }
-
-        System.out.println(msg);
 }
 
     @Override
@@ -110,7 +111,7 @@ public class MessageServiceImpl implements MessageService {
             time1 = preserveTime - 1000*60*30 - nowTime;
             time2 = time1 + 1000*60*30;
         }else {
-            time1 = 0;
+            time1 = 1000;
             time2 = time1 + 1000*60*30;
         }
 
@@ -118,10 +119,12 @@ public class MessageServiceImpl implements MessageService {
             correlationData.getMessageProperties().setExpiration(Long.toString(time1));
             return correlationData;
         });
+        System.out.println("产生消息： "+ message1 + "_" + Long.toString(time1));
         rabbitTemplate.convertAndSend("PROJECT_EXCHANGE", "DL", message2, correlationData ->{
             correlationData.getMessageProperties().setExpiration(Long.toString(time2));
             return correlationData;
         });
+        System.out.println("产生消息： "+ message2 + "_" + Long.toString(time2));
 
     }
 
@@ -146,22 +149,27 @@ public class MessageServiceImpl implements MessageService {
         Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
-        int second = c.get(Calendar.SECOND);
-        int nowTime = hour * 100 * 100 + minute * 100 + second;
+        int nowTime = hour * 100 + minute;
         //得到所有在该时间关闭的room
         List<StudyRoom> studyRoomList = studyRoomService.selectRoomsByCloseTime(nowTime);
-        List<Integer> idList = new LinkedList<>();
-        for (int i = 0; i <=studyRoomList.size()-1; i++){
-            idList.add(studyRoomList.get(i).getId());
-        }
-        //
-        List<Seat> seatList = seatService.updateSeatsByRoomIds(idList, 1);
-        List<Integer> seatIdList = new LinkedList<>();
-        for (Seat seat: seatList){
-            seatIdList.add(seat.getId());
+        if (studyRoomList.size() > 0){
+            List<Integer> idList = new LinkedList<>();
+            for (int i = 0; i <=studyRoomList.size()-1; i++){
+                idList.add(studyRoomList.get(i).getId());
+            }
+            //
+            List<Seat> seatList = seatService.updateSeatsByRoomIds(idList, 1);
+            List<Integer> seatIdList = new LinkedList<>();
+            if (seatList!= null){
+                for (int i =0;i<=seatList.size()-1;i++){
+                    seatIdList.add(seatList.get(i).getId());
+                }
+            }
+
+
+            historyService.updateHistoriesBySeatIds(seatIdList);
         }
 
-        historyService.updateHistoriesBySeatIds(seatIdList);
 
 
     }
