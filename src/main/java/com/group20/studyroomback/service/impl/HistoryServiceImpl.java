@@ -37,9 +37,17 @@ public class HistoryServiceImpl implements HistoryService {
 
     @Override
     public History insertHistory(History history) {
+        Seat seat = seatMapper.selectById(history.getSeatId());
+        if (userMapper.selectById(history.getUserId()) == null ||
+                seat == null){
+            return null;
+        }
+        if (seat.getStatus() != 1){
+            return null;
+        }
         history.setAlive(1);
         history.setId(UUID.randomUUID().toString().trim().replaceAll("-", ""));
-        Seat seat = new Seat();
+        seat = new Seat();
         seat.setStatus(2);
         seat.setId(history.getSeatId());
         seatMapper.updateById(seat);

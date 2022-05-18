@@ -42,7 +42,6 @@ public class SeatServiceImpl implements SeatService {
     @Override
     public List<Seat> updateSeatsByRoomIds(List<String> ids, int status) {
         QueryWrapper<Seat> queryWrapper = new QueryWrapper<>();
-        System.out.println(ids.size());
         queryWrapper.in("study_room_id", ids);
         Seat seat = new Seat();
         seat.setStatus(status);
@@ -66,7 +65,10 @@ public class SeatServiceImpl implements SeatService {
         QueryWrapper<History> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("alive", 2);
         queryWrapper.orderByDesc("preserve_time");
-        History history = historyMapper.selectOne(queryWrapper);
-        return seatMapper.selectById(history.getId());
+        List<History> historyList = historyMapper.selectList(queryWrapper);
+        if (historyList.size() == 0){
+            return null;
+        }
+        return seatMapper.selectById(historyList.get(0).getId());
     }
 }

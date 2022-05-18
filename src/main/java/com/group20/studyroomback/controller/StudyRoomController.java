@@ -29,9 +29,14 @@ public class StudyRoomController {
         MultiValueMap<String, String> headers = new HttpHeaders();
         Response<List<StudyRoom>> response = new Response<>();
         if (studyRooms.size() == 0){
+            response.setStatus(200);
             response.setDetail("查无数据");
         }else{
+            response.setStatus(200);
             response.setDetail("数据查询成功！");
+            if (studyRooms.size() > 10){
+                studyRooms = studyRooms.subList(0, 10);
+            }
             response.setData(studyRooms);
         }
         return new ResponseEntity(response,headers,200);
@@ -42,14 +47,17 @@ public class StudyRoomController {
     public ResponseEntity<Response> updateStudyRoom(@RequestBody StudyRoom studyRoom){
         MultiValueMap<String, String> headers = new HttpHeaders();
         Response<StudyRoom> response = new Response<>();
-        if (studyRoom.getRoomName() == null || studyRoom.getId() == null){
-            response.setDetail("Roomname和id不能为空");
+        if (studyRoom.getId() == null){
+            response.setDetail("id不能为空");
+            response.setStatus(400);
             return new ResponseEntity(response,headers,400);
         }
         StudyRoom studyRoom1 = studyRoomService.updateEntity(studyRoom);
         if (studyRoom1 == null){
+            response.setStatus(200);
             response.setDetail("更新失败");
         }else{
+            response.setStatus(200);
             response.setDetail("更新成功");
             response.setData(studyRoom1);
         }
@@ -62,8 +70,10 @@ public class StudyRoomController {
         int success_num = studyRoomService.insertStudyRoom(studyRoom);
         Response<StudyRoom> response = new Response<>();
         if (success_num == 0){
+            response.setStatus(200);
             response.setDetail("插入失败");
         }else{
+            response.setStatus(200);
             response.setDetail("插入成功");
             response.setData(studyRoom);
         }
@@ -76,8 +86,10 @@ public class StudyRoomController {
         int delete_num = studyRoomService.deleteById(id);
         Response<StudyRoom> response = new Response<>();
         if (delete_num == 0){
+            response.setStatus(200);
             response.setDetail("删除失败");
         }else{
+            response.setStatus(200);
             response.setDetail("删除成功");
         }
         return new ResponseEntity(response,headers,200);

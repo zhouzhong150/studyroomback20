@@ -34,13 +34,19 @@ public class HistoryController {
         Response<List<History>> response = new Response<>();
         if (user_id == null){
             response.setDetail("参数错误");
+            response.setStatus(400);
             return new ResponseEntity(response,headers,400);
         }
         List<History> histories = historyService.getByUserId(user_id);
         if (histories.size() == 0){
+            response.setStatus(200);
             response.setDetail("查无数据");
         }else{
+            response.setStatus(200);
             response.setDetail("数据查询成功！");
+            if (histories.size() > 10){
+                histories = histories.subList(0, 10);
+            }
             response.setData(histories);
         }
         return new ResponseEntity(response,headers,200);
@@ -55,17 +61,20 @@ public class HistoryController {
     public ResponseEntity<Response> insertHistory(@RequestBody History history){
         MultiValueMap<String, String> headers = new HttpHeaders();
         Response<History> response = new Response<>();
-        if (history.getUserId() == null || history.getSeatId() == null || history.getAlive() == 2){
+        if (history.getUserId() == null || history.getSeatId() == null){
             response.setDetail("Bad Request");
+            response.setStatus(400);
             return new ResponseEntity(response,headers,400);
         }
         History history1 = historyService.insertHistory(history);
         if (history1 == null){
             response.setDetail("座位预约失败");
+            response.setStatus(200);
             return new ResponseEntity(response,headers,200);
         }else{
             response.setDetail("座位预约成功");
             response.setData(history1);
+            response.setStatus(200);
             return new ResponseEntity(response,headers,200);
         }
     }
@@ -76,22 +85,22 @@ public class HistoryController {
      * @return 更新后的history
      */
     @PutMapping("")
-    public ResponseEntity<Response> updateHistory(History history){
+    public ResponseEntity<Response> updateHistory(@RequestBody History history){
         MultiValueMap<String, String> headers = new HttpHeaders();
         Response<History> response = new Response<>();
-        if (history.getSeatId() == null || history.getId() == null || history.getUserId() == null){
-            response.setDetail("id不能为0或必须传入id");
-            if (history.getAlive() != 1 || history.getAlive() != 2){
-                response.setDetail("alive参数必须为1或2");
-            }
+        if (history.getId() == null || (history.getAlive() != 1 && history.getAlive() != 2)){
+            response.setDetail("参数错误");
+            response.setStatus(400);
             return new ResponseEntity(response,headers,400);
         }
         History newHistory = historyService.updateHistoryByEntity(history);
         if (newHistory == null){
             response.setDetail("更新失败");
+            response.setStatus(200);
             return new ResponseEntity(response,headers,200);
         }else{
             response.setDetail("更新成功");
+            response.setStatus(200);
             response.setData(newHistory);
             return new ResponseEntity(response,headers,200);
         }

@@ -28,13 +28,19 @@ public class SeatController {
         MultiValueMap<String, String> headers = new HttpHeaders();
         Response<List<Seat>> response = new Response<>();
         if (id == null){
+            response.setStatus(400);
             response.setDetail("参数错误");
             return new ResponseEntity(response,headers,400);
         }
         List<Seat> seats = seatService.getSeatsByRoomId(id);
         if (seats.size() == 0){
+            response.setStatus(200);
             response.setDetail("查无seat数据！");
         }else{
+            response.setStatus(200);
+            if (seats.size() > 10){
+                seats = seats.subList(0, 10);
+            }
             response.setData(seats);
             response.setDetail("查询数据成功");
         }
@@ -47,8 +53,10 @@ public class SeatController {
         Response<Seat> response = new Response<>();
         Seat seat = seatService.getRecommendSeat();
         if (seat == null){
+            response.setStatus(200);
             response.setDetail("无推荐");
         }else{
+            response.setStatus(200);
             response.setDetail("推荐成功");
             response.setData(seat);
         }
