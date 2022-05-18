@@ -89,7 +89,6 @@ public class HistoryServiceImpl implements HistoryService {
     @Override
     public List<History> updateHistoriesBySeatIds(List<String> ids) {
         QueryWrapper<History> queryWrapper = new QueryWrapper<>();
-        System.out.println(ids.size());
         queryWrapper.in(true,"seat_id", ids);
         List<History> histories = historyMapper.selectList(queryWrapper);
         int successNum = 0;

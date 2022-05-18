@@ -13,6 +13,8 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
 
+    <packaging>jar</packaging>
+
 
     <dependencies>
         <dependency>
@@ -85,5 +87,23 @@
             <version>3.4.3.4</version>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.group20.studyroomback.StudyRoomBack20Application</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

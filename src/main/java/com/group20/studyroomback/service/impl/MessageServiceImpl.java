@@ -68,9 +68,11 @@ public class MessageServiceImpl implements MessageService {
 
         try{
             if (type==1){
-                sentMail(fromMailName, MAILMESSAGE, MAILSUBJECTMESSAGE, userMail);
+                System.out.println("消费消息: 发送邮件");
+                int i = sentMail(fromMailName, MAILMESSAGE, MAILSUBJECTMESSAGE, userMail);
             }
             if (type==2){
+                System.out.println("消费消息: 检测是否签到");
                 Seat seat = seatService.getSeatById(seatId);
                 if (seat != null && seat.getStatus()== 2){
                     //改seat

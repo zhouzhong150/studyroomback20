@@ -42,7 +42,6 @@ public class SeatServiceImpl implements SeatService {
     @Override
     public List<Seat> updateSeatsByRoomIds(List<String> ids, int status) {
         QueryWrapper<Seat> queryWrapper = new QueryWrapper<>();
-        System.out.println(ids.size());
         queryWrapper.in("study_room_id", ids);
         Seat seat = new Seat();
         seat.setStatus(status);
