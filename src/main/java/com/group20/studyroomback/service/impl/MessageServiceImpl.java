@@ -182,7 +182,7 @@ public class MessageServiceImpl implements MessageService {
 
 
 
-            //historyService.updateHistoriesBySeatIds(seatIdList);
+            historyService.updateHistoriesBySeatIds(seatIdList);
         }
 
 
