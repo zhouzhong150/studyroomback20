@@ -2,8 +2,6 @@ package com.group20.studyroomback.controller;
 
 import com.group20.studyroomback.entity.History;
 import com.group20.studyroomback.entity.Response;
-import com.group20.studyroomback.entity.StudyRoom;
-import com.group20.studyroomback.mapper.HistoryMapper;
 import com.group20.studyroomback.service.HistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -53,8 +51,8 @@ public class HistoryController {
      * @param history 新增history并改变seat状态
      * @return 新增的hisotry实体
      */
-    @PostMapping("/")
-    public ResponseEntity<Response> insertHistory(History history){
+    @PostMapping("")
+    public ResponseEntity<Response> insertHistory(@RequestBody History history){
         MultiValueMap<String, String> headers = new HttpHeaders();
         Response<History> response = new Response<>();
         if (history.getId() != 0 || history.getSeatId() == 0 || history.getUserId() == 0 || history.getAlive() == 2){
@@ -77,7 +75,7 @@ public class HistoryController {
      * @param history 更新history状态和seat状态
      * @return 更新后的history
      */
-    @PutMapping("/")
+    @PutMapping("")
     public ResponseEntity<Response> updateHistory(History history){
         MultiValueMap<String, String> headers = new HttpHeaders();
         Response<History> response = new Response<>();
