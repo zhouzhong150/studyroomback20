@@ -12,6 +12,7 @@ import com.group20.studyroomback.service.HistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,6 +36,7 @@ public class HistoryServiceImpl implements HistoryService {
 
     @Override
     public History insertHistory(History history) {
+        history.setAlive(1);
         Seat seat = new Seat();
         seat.setStatus(2);
         seat.setId(history.getSeatId());
@@ -46,7 +48,8 @@ public class HistoryServiceImpl implements HistoryService {
 
         int successNum = historyMapper.insert(history);
         if (successNum > 0){
-            messageService.produceMessage("test", history.getSeatId(), history.getUserId(), time, user.getEmail());
+
+            messageService.produceMessage( new Date().toString(), history.getSeatId(), history.getUserId(), time, user.getEmail());
 
             return history;
         }else{

@@ -2,8 +2,6 @@ package com.group20.studyroomback.controller;
 
 import com.group20.studyroomback.entity.History;
 import com.group20.studyroomback.entity.Response;
-import com.group20.studyroomback.entity.StudyRoom;
-import com.group20.studyroomback.mapper.HistoryMapper;
 import com.group20.studyroomback.service.HistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

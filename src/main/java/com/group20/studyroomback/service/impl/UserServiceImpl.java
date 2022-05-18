@@ -1,14 +1,19 @@
 package com.group20.studyroomback.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.api.R;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.group20.studyroomback.entity.Response;
+import com.group20.studyroomback.entity.StudyRoom;
 import com.group20.studyroomback.entity.User;
 import com.group20.studyroomback.mapper.UserMapper;
 import com.group20.studyroomback.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -35,6 +40,16 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
+    public Response<User> deleteByUserId(int userId) {
+        int status = userMapper.deleteById(userId);
+
+        if (status == 1){
+            return new Response<>(200, "删除成功", null);
+        }
+        return new Response<>(200, "删除失败,无此用户", null);
+
+    }
 
     @Override
     public Response<User> insertUser(User user) {
@@ -69,12 +84,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Response selectAll(int pageNum) {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        Page<User> pageParam = new Page<>(pageNum,3);
+        IPage<User> userIPage = userMapper.selectPage(pageParam, queryWrapper);
+
+        return new Response(200, "查询成功", userIPage);
+
+    }
+
+    @Override
     public Response<User> updateUser(User user) {
+
         int num = userMapper.updateById(user);
         if (num == 0) {
             return new Response<>(400, "更新失败，id错误", null);
         }
-        return selectByUserId(user.getId());
+        return new Response<>(200, "更新成功", selectByUserId(user.getId()).getData());
     }
 
     @Override

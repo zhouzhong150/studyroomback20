@@ -10,8 +10,11 @@ public interface UserService {
 
     public Response<User> selectByUserId(int userId);
 
+    public Response<User> deleteByUserId(int userId);
+
     public Response insertUser(User user);
 
+    public Response selectAll(int pageNum);
 
     public Response updateUser(User user);
 
