@@ -23,9 +23,8 @@ public class StudyRoomController {
 
     @Autowired
     StudyRoomService studyRoomService;
-
     @GetMapping("/list")
-    public ResponseEntity<Response> getAllStudyRooms(@RequestParam("room_name") String roomName){
+    public ResponseEntity<Response> getAllStudyRooms(){
         List<StudyRoom> studyRooms = studyRoomService.selectRooms();
         MultiValueMap<String, String> headers = new HttpHeaders();
         Response<List<StudyRoom>> response = new Response<>();
