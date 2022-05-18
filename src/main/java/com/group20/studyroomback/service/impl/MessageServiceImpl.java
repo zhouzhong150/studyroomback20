@@ -115,10 +115,10 @@ public class MessageServiceImpl implements MessageService {
         long nowTime = System.currentTimeMillis();
         if(preserveTime - nowTime > 1000*60*30){
             time1 = preserveTime - 1000*60*30 - nowTime;
-            time2 = time1 + 1000*60*30;
+            time2 = time1 + 1000*60*30 - 1000*60*29;
         }else {
             time1 = 0;
-            time2 = time1 + 1000*60*30;
+            time2 = time1 + 1000*60*30 - 1000*60*29;
         }
 
         rabbitTemplate.convertAndSend("PROJECT_EXCHANGE", "DL", message1, correlationData ->{
