@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @TableName("user")
 public class User {
 
-    int id;
+    String id;
     /**
      * 用户角色 1代表管理员，2代表普通用户
      */

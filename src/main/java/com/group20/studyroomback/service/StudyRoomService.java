@@ -10,6 +10,6 @@ public interface StudyRoomService {
     public List<StudyRoom> selectRoomsByCloseTime(int closeTime);
     public StudyRoom updateEntity(StudyRoom studyRoom);
 
-    public int deleteById(int id);
+    public int deleteById(String id);
     public int insertStudyRoom(StudyRoom studyRoom);
 }

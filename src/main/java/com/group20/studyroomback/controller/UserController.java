@@ -56,7 +56,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Response> deleteById(@PathVariable("id") Integer id){
+    public ResponseEntity<Response> deleteById(@PathVariable("id") String id){
         MultiValueMap<String, String> headers = new HttpHeaders();
         Response response = userService.deleteByUserId(id);
         return new ResponseEntity<>(response, headers, response.getStatus());

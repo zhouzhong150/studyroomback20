@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * @Author: zhouzhong
@@ -52,16 +53,22 @@ public class StudyRoomServiceImpl implements StudyRoomService {
     }
 
     @Override
-    public int deleteById(int id) {
+    public int deleteById(String id) {
         return studyRoomMapper.deleteById(id);
     }
 
     @Override
     public int insertStudyRoom(StudyRoom studyRoom) {
+        studyRoom.setId(UUID.randomUUID().toString().trim().replaceAll("-", ""));
+        int successNum = studyRoomMapper.insert(studyRoom);
+        if (successNum == 0){
+            return successNum;
+        }
         for (int i=1; i<=studyRoom.getRoomRow(); i++)
         {
             for (int j=1; j<=studyRoom.getRoomColumn(); j++){
                 Seat seat = new Seat();
+                seat.setId(UUID.randomUUID().toString().trim().replaceAll("-", ""));
                 if (Math.random() >0.8){
                     seat.setHasPower(1);
                 }
@@ -76,6 +83,6 @@ public class StudyRoomServiceImpl implements StudyRoomService {
                 seatMapper.insert(seat);
             }
         }
-        return studyRoomMapper.insert(studyRoom);
+        return successNum;
     }
 }

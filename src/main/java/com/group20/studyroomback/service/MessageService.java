@@ -18,5 +18,5 @@ public interface MessageService {
 
     public void consumerMessage(Message message, Channel channel) throws IOException;
 
-    public void produceMessage(String content, int seatId, int userId, long preserveTime, String userMail);
+    public void produceMessage(String content, String seatId, String userId, long preserveTime, String userMail);
 }

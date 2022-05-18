@@ -42,7 +42,7 @@ public class StudyRoomController {
     public ResponseEntity<Response> updateStudyRoom(@RequestBody StudyRoom studyRoom){
         MultiValueMap<String, String> headers = new HttpHeaders();
         Response<StudyRoom> response = new Response<>();
-        if (studyRoom.getRoomName() == null || studyRoom.getId() == 0){
+        if (studyRoom.getRoomName() == null || studyRoom.getId() == null){
             response.setDetail("Roomname和id不能为空");
             return new ResponseEntity(response,headers,400);
         }
@@ -71,7 +71,7 @@ public class StudyRoomController {
     }
 
     @DeleteMapping("")
-    public ResponseEntity<Response> deleteStudyRoom(@RequestParam int id){
+    public ResponseEntity<Response> deleteStudyRoom(@RequestParam String id){
         MultiValueMap<String, String> headers = new HttpHeaders();
         int delete_num = studyRoomService.deleteById(id);
         Response<StudyRoom> response = new Response<>();

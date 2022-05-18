@@ -24,10 +24,10 @@ public class SeatController {
     @Autowired
     private SeatService seatService;
     @GetMapping("/studyroom/{id}")
-    public ResponseEntity<Response> getSeatsByStudyRoom(@PathVariable int id){
+    public ResponseEntity<Response> getSeatsByStudyRoom(@PathVariable String id){
         MultiValueMap<String, String> headers = new HttpHeaders();
         Response<List<Seat>> response = new Response<>();
-        if (id <= 0){
+        if (id == null){
             response.setDetail("参数错误");
             return new ResponseEntity(response,headers,400);
         }
