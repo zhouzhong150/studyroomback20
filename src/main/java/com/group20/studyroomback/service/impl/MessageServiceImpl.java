@@ -1,9 +1,6 @@
 package com.group20.studyroomback.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.group20.studyroomback.entity.*;
-import com.group20.studyroomback.mapper.HistoryMapper;
-import com.group20.studyroomback.mapper.SeatMapper;
 import com.group20.studyroomback.service.*;
 import com.rabbitmq.client.Channel;
 import org.springframework.amqp.core.Message;
@@ -17,7 +14,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,7 +26,7 @@ import java.util.List;
  */
 @Service
 public class MessageServiceImpl implements MessageService {
-    static final String MAILMESSAGE = "您预定的座位还有半小时就要开始签到了，请及时签到";
+    static final String MAILMESSAGE = "您预定的座位马上就要开始签到了，请及时签到";
     static final String MAILSUBJECTMESSAGE = "自习室座位预约";
 
     @Value("${spring.mail.username}")
@@ -54,8 +50,7 @@ public class MessageServiceImpl implements MessageService {
     @Autowired
     private StudyRoomService studyRoomService;
 
-    @Autowired
-    private HistoryMapper historyMapper;
+
 
     @Override
     @RabbitListener(queues = "PROJECT_LATTER_QUEUE")
@@ -108,6 +103,7 @@ public class MessageServiceImpl implements MessageService {
         }
 }
 
+
     @Override
     public void produceMessage(String content, int seatId, int userId, long preserveTime, String userMail){
         String message = content + '_' + seatId + '_' + userId + "_" + userMail;
@@ -122,7 +118,7 @@ public class MessageServiceImpl implements MessageService {
             time2 = time1 + 1000*60*30;
         }else {
             time1 = 0;
-            time2 = time1 + 1000*60*30 - 1000*60*29;
+            time2 = time1 + 1000*60*30;
         }
 
         rabbitTemplate.convertAndSend("PROJECT_EXCHANGE", "DL", message1, correlationData ->{
