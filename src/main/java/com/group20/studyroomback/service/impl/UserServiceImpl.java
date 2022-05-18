@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Response selectAll(int pageNum) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        Page<User> pageParam = new Page<>(pageNum,3);
+        Page<User> pageParam = new Page<>(pageNum,5);
         IPage<User> userIPage = userMapper.selectPage(pageParam, queryWrapper);
 
         return new Response(200, "查询成功", userIPage);
