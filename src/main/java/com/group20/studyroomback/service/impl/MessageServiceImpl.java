@@ -61,8 +61,8 @@ public class MessageServiceImpl implements MessageService {
 
         String[] messageList = msg.split("_");
         String content = messageList[0];
-        int seatId = Integer.parseInt(messageList[1]);
-        int userId = Integer.parseInt(messageList[2]);
+        String seatId = messageList[1];
+        String userId = messageList[2];
         int type = Integer.parseInt(messageList[4]);
         String userMail = messageList[3];
 
@@ -105,7 +105,7 @@ public class MessageServiceImpl implements MessageService {
 
 
     @Override
-    public void produceMessage(String content, int seatId, int userId, long preserveTime, String userMail){
+    public void produceMessage(String content, String seatId, String userId, long preserveTime, String userMail){
         String message = content + '_' + seatId + '_' + userId + "_" + userMail;
         String message1 = message + '_' + 1;
         String message2 = message + '_' + 2;
@@ -161,14 +161,14 @@ public class MessageServiceImpl implements MessageService {
         List<StudyRoom> studyRoomList = studyRoomService.selectRoomsByCloseTime(nowTime);
         System.out.println("定时任务，得到所有该关闭的自习室数量: " + Integer.toString(studyRoomList.size()));
         if (studyRoomList.size() > 0){
-            List<Integer> idList = new LinkedList<>();
+            List<String> idList = new LinkedList<>();
             for (int i = 0; i <=studyRoomList.size()-1; i++){
                 idList.add(studyRoomList.get(i).getId());
             }
             //
 
             List<Seat> seatList = seatService.updateSeatsByRoomIds(idList, 1);
-            List<Integer> seatIdList = new LinkedList<>();
+            List<String> seatIdList = new LinkedList<>();
             if (seatList!= null){
                 for (int i =0;i<=seatList.size()-1;i++){
                     seatIdList.add(seatList.get(i).getId());

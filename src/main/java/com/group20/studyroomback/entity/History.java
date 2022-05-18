@@ -1,6 +1,7 @@
 package com.group20.studyroomback.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.sun.org.apache.xpath.internal.objects.XString;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,9 +20,9 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @TableName("history")
 public class History {
-    int id;
-    int userId;
-    int seatId;
+    String id;
+    String userId;
+    String seatId;
     /**
      * 预定时间，是一个时间戳
      */

@@ -29,10 +29,10 @@ public class HistoryController {
      * @return history列表
      */
     @GetMapping("/{user_id}")
-    public ResponseEntity<Response> getHistoryByUserId(@PathVariable int user_id){
+    public ResponseEntity<Response> getHistoryByUserId(@PathVariable String user_id){
         MultiValueMap<String, String> headers = new HttpHeaders();
         Response<List<History>> response = new Response<>();
-        if (user_id <= 0){
+        if (user_id == null){
             response.setDetail("参数错误");
             return new ResponseEntity(response,headers,400);
         }
@@ -55,7 +55,7 @@ public class HistoryController {
     public ResponseEntity<Response> insertHistory(@RequestBody History history){
         MultiValueMap<String, String> headers = new HttpHeaders();
         Response<History> response = new Response<>();
-        if (history.getId() != 0 || history.getSeatId() == 0 || history.getUserId() == 0 || history.getAlive() == 2){
+        if (history.getUserId() == null || history.getSeatId() == null || history.getAlive() == 2){
             response.setDetail("Bad Request");
             return new ResponseEntity(response,headers,400);
         }
@@ -79,7 +79,7 @@ public class HistoryController {
     public ResponseEntity<Response> updateHistory(History history){
         MultiValueMap<String, String> headers = new HttpHeaders();
         Response<History> response = new Response<>();
-        if (history.getSeatId() == 0 || history.getId() == 0 || history.getUserId() == 0){
+        if (history.getSeatId() == null || history.getId() == null || history.getUserId() == null){
             response.setDetail("id不能为0或必须传入id");
             if (history.getAlive() != 1 || history.getAlive() != 2){
                 response.setDetail("alive参数必须为1或2");

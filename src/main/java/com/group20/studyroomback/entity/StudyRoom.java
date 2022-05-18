@@ -21,7 +21,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @TableName("study_room")
 public class StudyRoom {
-    int id;
+    String id;
     String roomName;
     /**
      关闭时间，0时0分0秒为0，10时50分20秒为105020

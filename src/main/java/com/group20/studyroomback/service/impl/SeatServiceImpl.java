@@ -35,13 +35,14 @@ public class SeatServiceImpl implements SeatService {
     }
 
     @Override
-    public Seat getSeatById(int id) {
+    public Seat getSeatById(String id) {
         return seatMapper.selectById(id);
     }
 
     @Override
-    public List<Seat> updateSeatsByRoomIds(List<Integer> ids, int status) {
+    public List<Seat> updateSeatsByRoomIds(List<String> ids, int status) {
         QueryWrapper<Seat> queryWrapper = new QueryWrapper<>();
+        System.out.println(ids.size());
         queryWrapper.in("study_room_id", ids);
         Seat seat = new Seat();
         seat.setStatus(status);
@@ -54,9 +55,9 @@ public class SeatServiceImpl implements SeatService {
     }
 
     @Override
-    public List<Seat> getSeatsByRoomId(int roomId) {
+    public List<Seat> getSeatsByRoomId(String roomId) {
         QueryWrapper<Seat> queryWrapper = new QueryWrapper<>();
-        queryWrapper.in("study_room_id", roomId);
+        queryWrapper.eq("study_room_id", roomId);
         return seatMapper.selectList(queryWrapper);
     }
 

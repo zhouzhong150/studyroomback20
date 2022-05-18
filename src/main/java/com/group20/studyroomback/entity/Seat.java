@@ -16,8 +16,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @TableName("seat")
 public class Seat {
-    int id;
-    int studyRoomId;
+    String id;
+    String studyRoomId;
     String seatName;
     int positionRow;
     int positionColumn;

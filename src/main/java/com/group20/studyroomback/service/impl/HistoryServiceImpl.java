@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @Author: zhouzhong
@@ -37,30 +38,25 @@ public class HistoryServiceImpl implements HistoryService {
     @Override
     public History insertHistory(History history) {
         history.setAlive(1);
+        history.setId(UUID.randomUUID().toString().trim().replaceAll("-", ""));
         Seat seat = new Seat();
         seat.setStatus(2);
         seat.setId(history.getSeatId());
         seatMapper.updateById(seat);
         long time = System.currentTimeMillis();
         history.setPreserveTime(time);
-
         User user = userMapper.selectById(history.getUserId());
-
         int successNum = historyMapper.insert(history);
         if (successNum > 0){
-
             messageService.produceMessage( new Date().toString(), history.getSeatId(), history.getUserId(), time, user.getEmail());
-
             return history;
         }else{
-
-
             return null;
         }
     }
 
     @Override
-    public List<History> getByUserId(int user_id) {
+    public List<History> getByUserId(String user_id) {
         QueryWrapper<History> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", user_id);
         List<History> histories = historyMapper.selectList(queryWrapper);
@@ -91,12 +87,16 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
-    public List<History> updateHistoriesBySeatIds(List<Integer> ids) {
+    public List<History> updateHistoriesBySeatIds(List<String> ids) {
         QueryWrapper<History> queryWrapper = new QueryWrapper<>();
-        queryWrapper.in("seat_id", ids);
-        History history = new History();
-        history.setAlive(0);
-        int successNum = historyMapper.update(history, queryWrapper);
+        System.out.println(ids.size());
+        queryWrapper.in(true,"seat_id", ids);
+        List<History> histories = historyMapper.selectList(queryWrapper);
+        int successNum = 0;
+        for (History history:histories){
+            history.setAlive(2);
+            successNum += historyMapper.updateById(history);
+        }
         if (successNum > 0){
             return historyMapper.selectList(queryWrapper);
         }else{

@@ -4,17 +4,15 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.group20.studyroomback.entity.Response;
-import com.group20.studyroomback.entity.StudyRoom;
 import com.group20.studyroomback.entity.User;
 import com.group20.studyroomback.mapper.UserMapper;
 import com.group20.studyroomback.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * @Author: zhouzhong
@@ -29,7 +27,7 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
 
     @Override
-    public Response<User> selectByUserId(int userId) {
+    public Response<User> selectByUserId(String userId) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id", userId);
         List<User> userList = userMapper.selectList(queryWrapper);
@@ -41,7 +39,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Response<User> deleteByUserId(int userId) {
+    public Response<User> deleteByUserId(String userId) {
         int status = userMapper.deleteById(userId);
 
         if (status == 1){
@@ -72,7 +70,8 @@ public class UserServiceImpl implements UserService {
         if (response_.getStatus() == 400 | response_.getData() != null){
             return new Response<>(400, "注册失败，学号已被使用", null);
         }
-        user.setRole(0);
+        user.setId(UUID.randomUUID().toString().trim().replaceAll("-", ""));
+        user.setRole(2);
         user.setDelayTimes(0);
         int status = userMapper.insert(user);
 
