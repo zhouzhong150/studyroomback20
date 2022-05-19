@@ -19,6 +19,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("study_room")
+@CrossOrigin
 public class StudyRoomController {
 
     @Autowired

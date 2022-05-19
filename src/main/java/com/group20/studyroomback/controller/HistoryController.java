@@ -19,6 +19,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("history")
+@CrossOrigin
 public class HistoryController {
     @Autowired
     private HistoryService historyService;
